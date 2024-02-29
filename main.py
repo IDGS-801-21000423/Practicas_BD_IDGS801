@@ -75,6 +75,7 @@ def ABCompleto():
   
   return render_template("ABC_Completo_Emp.html", empleado=empleado)
 
+
 if __name__ =="__main__":
   csrf.init_app(app)
   db.init_app(app)
