@@ -1,0 +1,216 @@
+<!-- INDEX -->
+{% extends "layout2.html" %}
+{% block content %}
+{% from "_macros.html" import camposNuevos %}
+<div class="container">
+  <form name="sent" action="/clientes" id="contactForm" method="POST">
+    <div class="row">
+      <div class="col-4">
+        <div class="form-group col-xs-12 float-label-form-group controls">
+          {% if clientes.nombre_cliente.data %}
+            <b>{{camposNuevos(clientes.nombre_cliente, placeholder='Nombre Completo', class='form-control', value=clientes.nombre_cliente.data)}}</b>
+          {% else %}
+            <b>{{camposNuevos(clientes.nombre_cliente, placeholder='Nombre Completo', class='form-control')}}</b>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group col-xs-12 float-label-form-group controls">
+          {% if clientes.direccion_cliente.data %}
+            <b>{{camposNuevos(clientes.direccion_cliente, placeholder='Direccion', class='form-control',value=clientes.direccion_cliente.data)}}</b>
+          {% else %}
+            <b>{{camposNuevos(clientes.direccion_cliente, placeholder='Direccion', class='form-control')}}</b>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group col-xs-12 float-label-form-group controls">
+          {% if clientes.telefono_cliente.data %}
+            <b>{{camposNuevos(clientes.telefono_cliente, placeholder='Telefono',class='form-control',value=clientes.telefono_cliente.data)}}</b>
+          {% else %}
+            <b>{{camposNuevos(clientes.telefono_cliente, placeholder='Telefono', class='form-control')}}</b>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col"></div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <br>
+        <div class="form-check">
+          <br>
+          <label class="form-check-label"><b>Tamaño Pizza</b></label>
+          <br><br>
+          <input type="radio" name="tamanio_pizza" value="Chica" class="form-check-input"/>
+          <label class="form-check-label">Chica $40</label>
+          <br>
+          <input type="radio" name="tamanio_pizza" value="Mediana" class="form-check-input"/>
+          <label class="form-check-label">Mediana $80</label>
+          <br>
+          <input type="radio" name="tamanio_pizza" value="Grande" class="form-check-input" />
+          <label class="form-check-label">Grande $120</label>
+          <br>
+        </div>
+      </div>
+      <div class="col-4">
+          <!-- Checkbox -->
+          <br>
+          <div class="form-check">
+            <br>
+            <label><b>Ingredientes</b></label>
+            <br><br>
+            <input type="checkbox" id="jamon" name="jamon" value="y" {{ pizzas.jamon.checked }}>
+            <label class="form-check-label">Jamon $10</label>
+            <br>
+            <input type="checkbox" id="pina" name="pina" value="y" {{ pizzas.pina.checked }}>
+            <label class="form-check-label">Pi&ntilde;a $10</label>
+            <br>
+            <input type="checkbox" id="champinones" name="champinones" value="y" {{ pizzas.champinones.checked }}>
+            <label class="form-check-label">Champiñones $10</label>
+            <br>
+          </div>
+      </div>
+      <div class="col-4">
+        <br><br>
+          <div class="form-group col-xs-12 float-label-form-group controls">
+            <b>{{camposNuevos(pizzas.numero_pizza,placeholder='Numero de pizzas', class='form-control')}}</b>
+          </div>
+          <br>
+          <div>
+            <label><b>Fecha de compra:</b>&nbsp;&nbsp;</label>
+            <input type="date" id="fecha_de_compra" name="fecha_de_compra">
+          </div>
+          <br>
+      </div>
+      <div class="col-12">
+        <div class="text-center">
+            <!-- Validacion del token -->
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="submit" id="send-signup" name="signup" value="Agregar" class="btn btn-primary btn-lg">
+        </div>
+      </div>
+    </div>
+  </form>
+  <br><br>
+  <hr>
+  <div class="row text-end">
+    <form action="/confirmar_terminar" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="col-12">
+        <button type="submit" class="btn btn-success btn-lg">Terminar</button>
+      </div>
+    </form>
+  </div>
+  <br>
+  <table id="pizzas" class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">-</th>
+        <th scope="col">Tama&ntilde;o</th>
+        <th scope="col">Ingredientes</th>
+        <th scope="col">Num.Pizzas</th>
+        <th scope="col">SubTotal</th>
+        <th scope="col">Fecha de Compra</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pizza in registros_pizzas %}
+        <tr>
+          <td>-</td>
+          <td>{{ pizza.tamanio_pizza }}</td>
+          <td>{{ pizza.ingredientes_pizza }}</td>
+          <td>{{ pizza.numero_pizza }}</td>
+          <td>{{ pizza.subtotal_pizza }}</td>
+          <td>{{ pizza.fecha_de_compra }}</td>
+          <td>
+            <form action="/clientes" method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="eliminar_pizza" value="{{ pizza.id_pizza }}">
+              <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+          </td>
+          <!-- <td><button class="btn btn-warning">Modificar</button></td> -->
+          <!-- <td><a href="eliminar_pizza?id_pizza={{pizza.id_pizza}}" class="btn btn-danger">Eliminar</a></td> -->
+          <td><a href="modificar_pizza?id_pizza={{pizza.id_pizza}}" class="btn btn-warning">Modificar</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br><br>
+  <hr>
+  {% if ventas_dia %}
+  <p>Ventas del día: {{ ventas_dia }}</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Id Pizza</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Tamaño</th>
+        <th scope="col">Ingredientes</th>
+        <th scope="col">Número</th>
+        <th scope="col">Subtotal</th>
+        <th scope="col">Fecha de compra</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registro_pizza, registro_cliente in registros_dia %}
+      <tr>
+        <td>{{ registro_pizza.id_pizza }}</td>
+        <td>{{ registro_cliente.nombre_cliente }}</td>
+        <td>{{ registro_pizza.tamanio_pizza }}</td>
+        <td>{{ registro_pizza.ingredientes_pizza }}</td>
+        <td>{{ registro_pizza.numero_pizza }}</td>
+        <td>{{ registro_pizza.subtotal_pizza }}</td>
+        <td>{{ registro_pizza.fecha_de_compra }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  {% endif %}
+  <br><br>
+  {% if ventas_mes %}
+  <p>Ventas del mes: {{ ventas_mes }}</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Id Pizza</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Tamaño</th>
+        <th scope="col">Ingredientes</th>
+        <th scope="col">Número</th>
+        <th scope="col">Subtotal</th>
+        <th scope="col">Fecha de compra</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registro_pizza, registro_cliente in registros_mes %}
+      <tr>
+        <td>{{ registro_pizza.id_pizza }}</td>
+        <td>{{ registro_cliente.nombre_cliente }}</td>
+        <td>{{ registro_pizza.tamanio_pizza }}</td>
+        <td>{{ registro_pizza.ingredientes_pizza }}</td>
+        <td>{{ registro_pizza.numero_pizza }}</td>
+        <td>{{ registro_pizza.subtotal_pizza }}</td>
+        <td>{{ registro_pizza.fecha_de_compra }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %} 
+    <form action="/ventas" method="get">
+        <div class="col-6">
+          <label for="dia">Día:</label><br>
+          <input type="text" id="dia" name="dia"><br><br>
+        </div>
+        <div class="col-6">
+          <label for="mes">Mes:</label><br>
+          <input type="text" id="mes" name="mes"><br><br>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="submit" value="Consultar ventas" class="btn btn-success">
+        </div>
+    </form>
+</div>
+{% endblock %}

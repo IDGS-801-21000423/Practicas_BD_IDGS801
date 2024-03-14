@@ -20,4 +20,3 @@ class Empleados(db.Model):
   email = db.Column(db.String(50))
   sueldo = db.Column(db.Float)
   created_date = db.Column(db.DateTime, default = datetime.datetime.now)
-  

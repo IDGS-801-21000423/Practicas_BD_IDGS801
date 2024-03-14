@@ -1,0 +1,120 @@
+<!-- INDEX -->
+{% extends "layout2.html" %}
+{% block content %}
+{% from "_macros.html" import camposNuevos %}
+<div class="container">
+  <form name="sent" action="/modificar_pizza" id="contactForm" method="POST">
+    <div class="row">
+      <h4 class="text-center">Detalles de la pizza anteriores:</h4>
+      <div class="row text-center">
+        <div class="col-3">
+          <br>
+          <label>Id Pizza:</label>
+          <input type="text" id="id_pizza" name="id_pizza" value="{{pizzas.id_pizza.data}}" readonly>
+        </div>
+        <div class="col-3">
+          <br>
+          <label>Su Tama&ntilde;o:</label><br>
+          <input type="text" id="tamanio_pizza" value="{{ pizzas.tamanio_pizza.data }}" readonly>
+        </div>
+        <div class="col-3">
+          <br>
+          <label>Ingredientes Pizza:</label>
+          <br>
+          {% if 'jamon' in ingredientesGuardados %}
+            <input type="text" id="" name="" value="jamon" readonly>
+          {% endif %}
+          <br>
+          {% if 'piña' in ingredientesGuardados %}
+          <input type="text" id="" name="" value="piña" readonly>
+          {% endif %}
+          <br>
+          {% if 'champiñones' in ingredientesGuardados %}
+          <input type="text" id="" name="" value="champiñones" readonly>
+          {% endif %}
+          <br>
+        </div>
+        <div class="col-3">
+          <br>
+          <div class="form-group col-xs-12 float-label-form-group controls">
+            <label>Numero de pizzas:</label>
+            <input type="text" id="" name="" value="{{pizzas.numero_pizza.data}}" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-6">
+          <br>
+          <label>Subtotal pizza:</label>
+          <br>
+          <input type="number" id="subtotal_pizza" name="subtotal_pizza" value="{{ pizzas.subtotal_pizza.data }}" readonly>
+        </div>
+        <div class="col-6">
+          <br>
+          <label>Fecha de compra:</label>
+          <br>
+          <input type="text" id="" name="" value="{{ pizzas.fecha_de_compra.data }}" readonly>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <h4 class="text-center">Nuevos detalles de la pizza:</h4>
+      <div class="col-3">
+        <br>
+        <div class="form-check">
+          <br>
+          <label class="form-check-label"><b>Tamaño Pizza</b></label>
+          <br><br>
+          <input type="radio" name="tamanio_pizza" value="Chica" class="form-check-input" />
+          <label class="form-check-label">Chica $40</label>
+          <br>
+          <input type="radio" name="tamanio_pizza" value="Mediana" class="form-check-input" />
+          <label class="form-check-label">Mediana $80</label>
+          <br>
+          <input type="radio" name="tamanio_pizza" value="Grande" class="form-check-input" />
+          <label class="form-check-label">Grande $120</label>
+          <br>
+        </div>
+      </div>
+      <div class="col-3">
+        <!-- Checkbox -->
+        <br>
+        <div class="form-check">
+          <br>
+          <label><b>Ingredientes</b></label>
+          <br><br>
+          <input type="checkbox" id="jamon" name="jamon" value="y" {{ pizzas.jamon.checked }}>
+          <label class="form-check-label">Jamon $10</label>
+          <br>
+          <input type="checkbox" id="pina" name="pina" value="y" {{ pizzas.pina.checked }}>
+          <label class="form-check-label">Pi&ntilde;a $10</label>
+          <br>
+          <input type="checkbox" id="champinones" name="champinones" value="y" {{ pizzas.champinones.checked }}>
+          <label class="form-check-label">Champiñones $10</label>
+          <br>
+        </div>
+      </div>
+      <div class="col-3">
+        <br><br>
+        <div class="form-group col-xs-12 float-label-form-group controls">
+          {{camposNuevos(pizzas.numero_pizza,placeholder='Numero de pizzas', class='form-control')}}
+        </div>
+        <div>
+          <label><b>Fecha de compra:</b>&nbsp;&nbsp;</label>
+          <input type="date" id="fecha_de_compra" name="fecha_de_compra">
+        </div>
+      </div>
+      <div class="col-3 text-center">
+        <br><br>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="submit" class="btn btn-danger btn-lg" id="guardar" name="guardar" value="Guardar">
+        <br><br>
+        <a href="/clientes" class="btn btn-success btn-lg">
+          <i class="icon-undo icon-white"></i>Cancelar
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

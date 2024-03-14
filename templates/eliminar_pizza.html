@@ -1,0 +1,64 @@
+<!-- INDEX -->
+{% extends "layout2.html" %}
+{% block content %}
+{% from "_macros.html" import camposNuevos %}
+<div class="container">
+  <form name="sent" action="/eliminar_pizza" id="contactForm" method="POST">
+    <div class="row">
+      <div class="col-3">
+        <br>
+        <label>Id pizza:</label>
+        <br><br>
+        <input type="text" id="id_pizza" name="id_pizza" value="{{pizzas.id_pizza.data}}" readonly>
+      </div>
+      <div class="col-3">
+        <br>
+        <label>Tama&ntilde;o de la pizza:</label>
+        <br><br>
+        <input type="text" id="tamanio_pizza" value="{{ pizzas.tamanio_pizza.data }}" readonly>
+      </div>
+      <div class="col-3"><br>
+          <label>Ingredientes Pizza:</label>
+          <br><br>
+          {% if 'jamon' in ingredientes %}
+          <input type="text" id="jamon" name="jamon" value="jamon" readonly>
+          {% endif %}
+          <br>
+          {% if 'piña' in ingredientes %}
+          <input type="tex" id="pina" name="pina" value="piña" readonly>
+          {% endif %}
+          <br>
+          {% if 'champiñones' in ingredientes %}
+          <input type="text" id="champinones" name="champinones" value="champiñones" readonly>
+          {% endif %}
+          <br>
+      </div>
+      <div class="col-3">
+        <br>
+        <div class="form-group col-xs-12 float-label-form-group controls">
+          <label>Numero de pizzas:</label>
+          <br><br>
+          <input type="text" id="" name="" value="{{pizzas.numero_pizza.data}}" readonly>
+          <!-- {{camposNuevos(pizzas.numero_pizza, class='form-control')}} -->
+        </div>
+      </div>
+    </div>
+    <br><br>
+    <div class="row text-center">
+      <div class="col-4">
+        <br>
+        <label>Subtotal pizza:</label>
+        <br><br>
+        <input type="number" id="subtotal_pizza" name="subtotal_pizza" value="{{pizzas.subtotal_pizza.data}}" readonly>
+      </div>
+      <div class="col-8">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="submit" class="btn btn-danger btn-lg" id="eliminar" name="eliminar" value="Eliminar">
+        <a href="" class="btn btn-success btn-lg">
+          <i class="icon-undo icon-white"></i>Cancelar
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

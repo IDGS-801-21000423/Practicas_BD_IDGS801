@@ -3,7 +3,7 @@ from wtforms import Form
 from flask_wtf import FlaskForm
 
 from wtforms import StringField, IntegerField
-from wtforms import EmailField, TelField, FloatField
+from wtforms import EmailField, TelField, FloatField, BooleanField, SelectMultipleField, RadioField
 # Aqui de los validadores importamos el dato obligatorio y el email
 from wtforms import validators
 
@@ -40,4 +40,3 @@ class EmployeesForm(Form):
     validators.DataRequired(message='El sueldo es requerido')
   ])
   
-

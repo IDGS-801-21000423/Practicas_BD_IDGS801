@@ -1,0 +1,18 @@
+
+<h1>Terminar pedido:</h1>
+{% if total %}
+<p>El total a pagar es: {{ total }}</p>
+{% endif %}
+<form action="/confirmar_terminar" method="POST">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="hidden" name="action" value="aceptar">
+  <button type="submit" lass="btn btn-success btn-lg">Aceptar</button>
+</form>
+<form action="/confirmar_terminar" method="POST">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="hidden" name="action" value="cancelar">
+  <button type="submit" class="btn btn-warning btn-lg">Cancelar</button>
+</form>
+
+
+
